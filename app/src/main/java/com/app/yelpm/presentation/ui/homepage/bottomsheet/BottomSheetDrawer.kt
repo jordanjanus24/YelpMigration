@@ -36,21 +36,7 @@ fun BottomSheetDrawer(homepageViewModel: HomePageViewModel, mapViewModel: MapVie
         scaffoldState = bottomSheetScaffoldState,
         sheetGesturesEnabled = true,
         sheetContent = {
-            Card(
-                modifier = Modifier.fillMaxHeight(0.85f),
-                elevation = 8.dp,
-                backgroundColor = MaterialTheme.colors.surface) {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Column {
-                        val businesses = homepageViewModel.businesses.value
-                        FilterOptions("Distance","Ratings","Reviews")
-                        businesses?.let { it ->
-                            BusinessList(businesses = it)
-                        }
-                    }
-                }
-            }
-
+            BottomSheet(homepageViewModel = homepageViewModel)
         },
         sheetElevation = 8.dp,
         backgroundColor = Color.Transparent,
@@ -58,9 +44,10 @@ fun BottomSheetDrawer(homepageViewModel: HomePageViewModel, mapViewModel: MapVie
         sheetShape = RoundedCornerShape(
             topStart = if(!bottomSheetState.isExpanded) 20.dp else 0.dp,
             topEnd = if(!bottomSheetState.isExpanded) 20.dp else 0.dp),
-        sheetPeekHeight = 200.dp
+        sheetPeekHeight = 250.dp,
+        sheetBackgroundColor = MaterialTheme.colors.surface
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxSize().padding(bottom = 20.dp)) {
             MapScreen(viewModel = mapViewModel)
             CardToolbar(bottomSheetScaffoldState.bottomSheetState)
         }

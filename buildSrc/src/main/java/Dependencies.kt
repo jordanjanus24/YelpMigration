@@ -66,6 +66,8 @@ object Deps {
     const val retrofit_converter_gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
     // Material Theme
     const val material_theme = "com.google.android.material:material:${Versions.material_theme}"
+    // Accompanist
+    const val accompanist_pager = "com.google.accompanist:accompanist-pager:"
 }
 
 object TestDeps {

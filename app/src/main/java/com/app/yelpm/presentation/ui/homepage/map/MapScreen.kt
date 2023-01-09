@@ -3,6 +3,7 @@ package com.app.yelpm.presentation.ui.homepage.map
 import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -28,13 +29,18 @@ fun MapScreen(
     val mapProperties = MapProperties(
         isMyLocationEnabled = state.lastKnownLocation != null,
     )
+    val uiSettings = MapUiSettings(
+        myLocationButtonEnabled = false,
+        zoomControlsEnabled = false
+    )
     val cameraPositionState = rememberCameraPositionState()
     Box(
         modifier = Modifier.fillMaxSize()) {
         GoogleMap(
             modifier = Modifier.matchParentSize(),
             properties = mapProperties,
-            cameraPositionState = cameraPositionState
+            cameraPositionState = cameraPositionState,
+            uiSettings = uiSettings
         ) {
             val context = LocalContext.current
             val scope = rememberCoroutineScope()
@@ -58,14 +64,4 @@ fun MapScreen(
             }
         }
     }
-
 }
-
-private suspend fun CameraPositionState.centerOnLocation(
-    location: Location
-) = animate(
-    update = CameraUpdateFactory.newLatLngZoom(
-        LatLng(location.latitude, location.longitude),
-        15f
-    ),
-)

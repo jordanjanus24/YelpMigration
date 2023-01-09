@@ -20,7 +20,6 @@ fun BusinessItem(business: Business) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .requiredHeight(100.dp)
             .padding(
                 start = 10.dp,
                 top = 5.dp,

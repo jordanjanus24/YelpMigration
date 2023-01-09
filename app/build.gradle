@@ -81,6 +81,7 @@ dependencies {
     implementation Deps.retrofit_converter_gson
     // Material Theme
     implementation Deps.material_theme
+    implementation "com.google.accompanist:accompanist-pager:0.23.1"
 
     // Test Implementations
     testImplementation TestDeps.junit

@@ -2,6 +2,7 @@ package com.app.yelpm.presentation.ui.homepage.map
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -27,7 +28,6 @@ class MapViewModel @Inject constructor(): ViewModel() {
             lastKnownLocation = null,
             clusterItems = listOf())
     )
-    val center: MutableState<LatLng?> = mutableStateOf(null)
     @SuppressLint("MissingPermission")
     fun getDeviceLocation(
         fusedLocationProviderClient: FusedLocationProviderClient

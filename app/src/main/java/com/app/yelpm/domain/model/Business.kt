@@ -2,17 +2,17 @@ package com.app.yelpm.domain.model
 
 
 data class Address(
-    val address1: String? = null,
-    val address2: String? = null,
-    val address3: String? = null,
-    val city: String? = null,
-    val zipCode: String? = null,
-    val country: String? = null,
-    val state: String? = null,
+    val address1: String? = "",
+    val address2: String? = "",
+    val address3: String? = "",
+    val city: String? = "",
+    val zipCode: String? = "",
+    val country: String? = "",
+    val state: String? = "",
     val displayAddress: List<String>? = null,
 ){
     fun getDisplayAddress(): String {
-        return "$address1 $address2 $city $zipCode"
+        return "$address1 $city $zipCode"
     }
 }
 data class Coordinates(

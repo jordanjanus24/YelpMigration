@@ -5,13 +5,14 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun FilterOptions(vararg sortOptions: String) {
+fun FilterOptions(sortOptions: List<String>, currentFilter: State<String>, onClick: (String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -25,9 +26,13 @@ fun FilterOptions(vararg sortOptions: String) {
         ) {
             items(sortOptions) { item ->
                 OutlinedButton(
-                    onClick = {}, colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colors.onSurface)
+                    onClick = { onClick(item) },
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        backgroundColor = if(currentFilter.value == item) MaterialTheme.colors.primaryVariant else MaterialTheme.colors.surface,
+                        contentColor = MaterialTheme.colors.onSurface
+                    )
                 ) {
-                    Text(item, color = MaterialTheme.colors.onSurface)
+                    Text(item, color = if(currentFilter.value == item) MaterialTheme.colors.onSurface else MaterialTheme.colors.onSurface)
                 }
             }
         }

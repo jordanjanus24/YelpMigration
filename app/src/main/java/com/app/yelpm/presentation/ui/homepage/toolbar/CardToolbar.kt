@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.runtime.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.app.yelpm.R
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -30,12 +32,13 @@ fun CardToolbar(bottomSheetState: BottomSheetState) {
             easing = FastOutLinearInEasing
         )
     )
+    val coroutineScope = rememberCoroutineScope()
     Surface(
-        modifier = Modifier.fillMaxHeight(0.15f),
+        modifier = Modifier.fillMaxHeight(0.13f),
         color = if(bottomSheetState.isCollapsed) Color.Transparent else animatedColor.value
     ) {
         Column(modifier = Modifier.padding(all = 20.dp)) {
-            Spacer(modifier = Modifier.padding(top = 10.dp))
+            Spacer(modifier = Modifier.requiredHeight(10.dp))
             Card(
                 backgroundColor = MaterialTheme.colors.surface,
                 elevation = 8.dp,
@@ -49,13 +52,27 @@ fun CardToolbar(bottomSheetState: BottomSheetState) {
                             color = MaterialTheme.colors.onSurface)
                     },
                     navigationIcon = {
-                        IconButton(onClick = {}, enabled = false) {
-                            Image(painter = painterResource(R.drawable.ic_logo),
-                                contentDescription = "Logo",
-                                colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
-                            )
-                        }
+                        IconButton(onClick = {
+                            if(bottomSheetState.isExpanded) {
+                                coroutineScope.launch {
+                                    bottomSheetState.collapse()
+                                }
+                            }
+                        }, enabled = bottomSheetState.isExpanded) {
+                            if(bottomSheetState.isExpanded) {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowBack,
+                                    contentDescription = "Back",
+                                    tint = MaterialTheme.colors.onSurface
+                                )
+                            } else {
+                                Image(painter = painterResource(R.drawable.ic_logo),
+                                    contentDescription = "Logo",
+                                    colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
+                                )
+                            }
 
+                        }
                     },
                     actions = {
                         IconButton(onClick = {}) {
