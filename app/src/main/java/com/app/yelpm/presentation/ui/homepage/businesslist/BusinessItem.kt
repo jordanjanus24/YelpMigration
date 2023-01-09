@@ -52,20 +52,21 @@ fun BusinessItem(business: Business) {
                 business.distance?.let { distance ->
                     val kmDistance = distance * 0.0001
                     val kms = String.format("%.1f", kmDistance)
-                    Text("${kms}km", style = MaterialTheme.typography.overline, color = Color.LightGray)
+                    Text("${kms}km", style = MaterialTheme.typography.overline, color = MaterialTheme.colors.onSurface)
                 }
-
                 Spacer(modifier = Modifier.width(5.dp))
             }
-
+            Spacer(modifier = Modifier.height(2.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 business.rating?.let { RatingBar(rating = it) }
                 Spacer(Modifier.requiredWidth(10.dp))
-                business.rating?.let { Text("$it Reviews", style = MaterialTheme.typography.overline, color = Color.LightGray) }
+                business.rating?.let { Text("$it Reviews", style = MaterialTheme.typography.overline, color = MaterialTheme.colors.onSurface) }
             }
-            Text(business.getCategories(), style = MaterialTheme.typography.caption, color = Color.Black)
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(business.getCategories(), style = MaterialTheme.typography.caption, color = MaterialTheme.colors.onSurface)
+            Spacer(modifier = Modifier.height(2.dp))
             business.location?.let { location ->
-                Text(location.getDisplayAddress(), style = MaterialTheme.typography.overline, color = Color.LightGray)
+                Text(location.getDisplayAddress(), style = MaterialTheme.typography.overline, color = MaterialTheme.colors.onSurface)
             }
         }
     }

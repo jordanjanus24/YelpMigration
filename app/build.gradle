@@ -79,6 +79,8 @@ dependencies {
     // Retrofit
     implementation Deps.retrofit
     implementation Deps.retrofit_converter_gson
+    // Material Theme
+    implementation Deps.material_theme
 
     // Test Implementations
     testImplementation TestDeps.junit

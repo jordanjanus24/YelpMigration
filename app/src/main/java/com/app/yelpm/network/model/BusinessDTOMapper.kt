@@ -43,39 +43,39 @@ class BusinessDTOMapper : DomainMapper<BusinessDTO, Business> {
         )
     }
 
-    override fun mapFromDomainModel(model: Business): BusinessDTO {
+    override fun mapFromDomainModel(domainModel: Business): BusinessDTO {
         return BusinessDTO(
-            id = model.id,
-            alias = model.alias,
-            name = model.name,
-            imageUrl = model.imageUrl,
-            isClosed = model.isClosed,
-            url = model.url,
-            reviewCount = model.reviewCount,
-            categories = model.categories?.map {
+            id = domainModel.id,
+            alias = domainModel.alias,
+            name = domainModel.name,
+            imageUrl = domainModel.imageUrl,
+            isClosed = domainModel.isClosed,
+            url = domainModel.url,
+            reviewCount = domainModel.reviewCount,
+            categories = domainModel.categories?.map {
                 CategoryDTO(
                     alias = it.alias,
                     title = it.title
                 )
             },
-            rating = model.rating,
+            rating = domainModel.rating,
             coordinates = CoordinatesDTO(
-                latitude = model.coordinates?.latitude,
-                longitude = model.coordinates?.longitude
+                latitude = domainModel.coordinates?.latitude,
+                longitude = domainModel.coordinates?.longitude
             ),
             location = AddressDTO(
-                address1 = model.location?.address1,
-                address2 = model.location?.address2,
-                address3 = model.location?.address3,
-                city = model.location?.city,
-                zipCode = model.location?.zipCode,
-                country = model.location?.country,
-                state = model.location?.state,
-                displayAddress = model.location?.displayAddress,
+                address1 = domainModel.location?.address1,
+                address2 = domainModel.location?.address2,
+                address3 = domainModel.location?.address3,
+                city = domainModel.location?.city,
+                zipCode = domainModel.location?.zipCode,
+                country = domainModel.location?.country,
+                state = domainModel.location?.state,
+                displayAddress = domainModel.location?.displayAddress,
             ),
-            phone = model.phone,
-            displayPhone = model.displayPhone,
-            distance = model.distance
+            phone = domainModel.phone,
+            displayPhone = domainModel.displayPhone,
+            distance = domainModel.distance
         )
     }
 

@@ -54,7 +54,6 @@ class MapViewModel @Inject constructor(): ViewModel() {
     }
 
     fun calculateZoneLatLngBounds(): LatLngBounds {
-        // Get all the points from all the polygons and calculate the camera view that will show them all.
         val latLngs = state.value.clusterItems.map { it.coordinates }
             .map { LatLng(it.latitude!!, it.longitude!!) }
         return latLngs.calculateCameraViewPoints().getCenterOfPolygon()
@@ -74,11 +73,6 @@ class MapViewModel @Inject constructor(): ViewModel() {
                 lastKnownLocation = mapState.lastKnownLocation,
                 clusterItems = clusterItems
             )
-        }
-    }
-    fun setCenter(centerPoint: LatLng) {
-        viewModelScope.launch {
-            center.value = centerPoint
         }
     }
 

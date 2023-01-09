@@ -8,25 +8,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.app.yelpm.presentation.ui.homepage.Content
-import com.app.yelpm.presentation.ui.homepage.HomepageViewModel
-import com.app.yelpm.presentation.ui.homepage.bottomsheet.BottomSheetDrawer
-import com.app.yelpm.presentation.ui.homepage.map.MapScreen
+import com.app.yelpm.presentation.ui.NavigationHost
+import com.app.yelpm.presentation.ui.homepage.HomePageViewModel
 import com.app.yelpm.presentation.ui.homepage.map.MapViewModel
-import com.app.yelpm.presentation.ui.homepage.toolbar.CardToolbar
-import com.app.yelpm.repository.BusinessesRepository
 import com.app.yelpm.theme.AppTheme
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -58,7 +46,8 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val mapViewModel: MapViewModel by viewModels()
-    private val homeViewModel: HomepageViewModel by viewModels()
+    private val homeViewModel: HomePageViewModel by viewModels()
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(
@@ -68,7 +57,15 @@ class MainActivity : ComponentActivity() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         askPermissions()
         setContent {
-            Content(navController = rememberNavController(), mapViewModel = mapViewModel, homepageViewModel = homeViewModel)
+            AppTheme {
+                NavigationHost(
+                    navController = rememberNavController(),
+                    mapViewModel = mapViewModel,
+                    homepageViewModel = homeViewModel,
+                    startDestination = "homepage"
+                )
+            }
+
         }
     }
 }

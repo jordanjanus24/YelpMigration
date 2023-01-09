@@ -3,6 +3,7 @@ package com.app.yelpm.presentation.components
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
@@ -19,7 +20,7 @@ fun RatingBar(rating: Float) {
             Icon(
                 imageVector = Icons.Filled.Star,
                 contentDescription = "Star",
-                tint = if(isEnabled) Color.Blue else Color.LightGray,
+                tint = if(isEnabled) MaterialTheme.colors.secondary else MaterialTheme.colors.onSurface,
                 modifier = Modifier
                     .requiredSize(15.dp)
             )

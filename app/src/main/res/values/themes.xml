@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.YelpMigration" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/teal_200</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
+    <style name="Theme.YelpMigration" parent="Theme.Material3.DayNight">
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
     </style>
 </resources>

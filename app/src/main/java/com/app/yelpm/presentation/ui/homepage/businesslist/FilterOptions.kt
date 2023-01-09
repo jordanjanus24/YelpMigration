@@ -1,12 +1,9 @@
 package com.app.yelpm.presentation.ui.homepage.businesslist
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,16 +19,15 @@ fun FilterOptions(vararg sortOptions: String) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text("Sort By", style = MaterialTheme.typography.h6)
-        Spacer(modifier = Modifier.width(10.dp))
-        LazyRow {
+        Spacer(modifier = Modifier.width(20.dp))
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             items(sortOptions) { item ->
-                Button(
-                    onClick = {},
-                    modifier = Modifier
-                        .padding(3.dp)
-                        .background(Color.White)
+                OutlinedButton(
+                    onClick = {}, colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colors.onSurface)
                 ) {
-                    Text(item)
+                    Text(item, color = MaterialTheme.colors.onSurface)
                 }
             }
         }

@@ -22,6 +22,8 @@ object Versions {
     const val glide = "4.12.0"
     // Retrofit
     const val retrofit = "2.9.0"
+    // Material Theme
+    const val material_theme = "1.7.0"
     object Testing {
         const val junit = "4.13.2"
         const val androidx_junit = "1.1.5"
@@ -62,6 +64,8 @@ object Deps {
     // Retrofit
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val retrofit_converter_gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+    // Material Theme
+    const val material_theme = "com.google.android.material:material:${Versions.material_theme}"
 }
 
 object TestDeps {

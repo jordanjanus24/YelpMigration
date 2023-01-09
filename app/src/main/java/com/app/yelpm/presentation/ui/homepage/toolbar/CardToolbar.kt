@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Place
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -22,7 +23,7 @@ import com.app.yelpm.R
 fun CardToolbar(bottomSheetState: BottomSheetState) {
     var showMenu by remember { mutableStateOf(false) }
     val animatedColor = animateColorAsState(
-        if(bottomSheetState.isCollapsed && !bottomSheetState.isAnimationRunning) Color.Transparent else Color.Red,
+        if(bottomSheetState.isCollapsed && !bottomSheetState.isAnimationRunning) Color.Transparent else MaterialTheme.colors.primary,
         animationSpec = tween(
             durationMillis = 300,
             delayMillis = 0,
@@ -36,20 +37,22 @@ fun CardToolbar(bottomSheetState: BottomSheetState) {
         Column(modifier = Modifier.padding(all = 20.dp)) {
             Spacer(modifier = Modifier.padding(top = 10.dp))
             Card(
-                backgroundColor = Color(0xFFBDFCBB).compositeOver(Color.White),
+                backgroundColor = MaterialTheme.colors.surface,
                 elevation = 8.dp,
-                contentColor = Color.White,
+                contentColor = MaterialTheme.colors.surface,
                 shape = RoundedCornerShape(5.dp)
             ) {
                 TopAppBar(
                     title = {
                         Text(text = "Select Country",
-                            style = MaterialTheme.typography.subtitle2)
+                            style = MaterialTheme.typography.subtitle2,
+                            color = MaterialTheme.colors.onSurface)
                     },
                     navigationIcon = {
                         IconButton(onClick = {}, enabled = false) {
                             Image(painter = painterResource(R.drawable.ic_logo),
-                                contentDescription = "Logo"
+                                contentDescription = "Logo",
+                                colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
                             )
                         }
 
@@ -58,12 +61,14 @@ fun CardToolbar(bottomSheetState: BottomSheetState) {
                         IconButton(onClick = {}) {
                             Icon(
                                 imageVector = Icons.Default.Place,
-                                contentDescription = "Select Country"
+                                contentDescription = "Select Country",
+                                tint = MaterialTheme.colors.onSurface
                             )
                         }
                         IconButton(onClick = { showMenu = !showMenu }) {
                             Icon(imageVector = Icons.Default.MoreVert,
-                                contentDescription = "More")
+                                contentDescription = "More",
+                                tint = MaterialTheme.colors.onSurface)
                         }
                         DropdownMenu(
                             expanded = showMenu,
@@ -77,7 +82,7 @@ fun CardToolbar(bottomSheetState: BottomSheetState) {
                             }
                         }
                     },
-                    backgroundColor = Color.White
+                    backgroundColor = MaterialTheme.colors.surface
                 )
             }
         }
