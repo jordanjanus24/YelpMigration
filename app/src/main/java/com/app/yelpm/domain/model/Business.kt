@@ -10,7 +10,11 @@ data class Address(
     val country: String? = null,
     val state: String? = null,
     val displayAddress: List<String>? = null,
-)
+){
+    fun getDisplayAddress(): String {
+        return "$address1 $address2 $city $zipCode"
+    }
+}
 data class Coordinates(
     val latitude: Double? = null,
     val longitude: Double? = null

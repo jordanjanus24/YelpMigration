@@ -9,6 +9,12 @@ fun List<LatLng>.getCenterOfPolygon(): LatLngBounds {
     forEach { centerBuilder.include(LatLng(it.latitude, it.longitude)) }
     return centerBuilder.build()
 }
+
+fun LatLng.getBounds(): LatLngBounds {
+    val centerBuilder: LatLngBounds.Builder = LatLngBounds.builder()
+    centerBuilder.include(LatLng(latitude, longitude))
+    return centerBuilder.build()
+}
 private data class CameraViewCoord(
     val yMax: Double,
     val yMin: Double,

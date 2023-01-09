@@ -1,7 +1,7 @@
 package com.app.yelpm.repository
 
-import com.app.yelpm.domain.model.Business
+import com.app.yelpm.network.response.BusinessesSearchResponse
 
 interface BusinessesRepository {
-    suspend fun search(location: String): List<Business>
+    suspend fun search(location: String): BusinessesSearchResponse
 }

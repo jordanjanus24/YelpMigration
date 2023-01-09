@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -17,6 +14,7 @@ import com.app.yelpm.presentation.ui.homepage.map.MapScreen
 import com.app.yelpm.presentation.ui.homepage.map.MapViewModel
 import com.app.yelpm.presentation.ui.homepage.toolbar.CardToolbar
 import com.app.yelpm.theme.AppTheme
+import com.google.android.gms.maps.model.LatLng
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -32,15 +30,24 @@ fun Content(navController: NavHostController, mapViewModel: MapViewModel, homepa
                 Box(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    MapScreen(
-                        state = mapViewModel.state.value,
-                        mapViewModel::setupClusterManager,
-                        calculateZoneViewCenter = mapViewModel::calculateZoneLatLngBounds)
+                    MapScreen(viewModel = mapViewModel)
                     Column {
                         CardToolbar(navController = navController, route = route)
                         BottomSheetDrawer(homepageViewModel = homepageViewModel)
                     }
-
+                }
+            }
+        }
+        LaunchedEffect(key1 = Unit) {
+            homepageViewModel.search("Philippines")
+            homepageViewModel.currentBusiness.observeForever { businesses ->
+                businesses?.let {
+                    mapViewModel.setClusterItems(it)
+                }
+            }
+            homepageViewModel.currentCenter.observeForever { center ->
+                center?.let {
+                    mapViewModel.setCenter(centerPoint = LatLng(it.latitude!!,it.longitude!!))
                 }
             }
         }

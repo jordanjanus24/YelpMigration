@@ -10,6 +10,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.app.yelpm.presentation.ui.homepage.map.clusters.ZoneClusterManager
+import com.app.yelpm.presentation.ui.homepage.map.clusters.getBounds
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -20,9 +21,10 @@ import kotlinx.coroutines.launch
 @SuppressLint("PotentialBehaviorOverride")
 @OptIn(MapsComposeExperimentalApi::class)
 @Composable
-fun MapScreen(state: MapState,
-              setupClusterManager: (Context, GoogleMap) -> ZoneClusterManager,
-              calculateZoneViewCenter: () -> LatLngBounds,) {
+fun MapScreen(
+    viewModel: MapViewModel
+) {
+    val state = viewModel.state.value
     val mapProperties = MapProperties(
         isMyLocationEnabled = state.lastKnownLocation != null,
     )
@@ -38,19 +40,15 @@ fun MapScreen(state: MapState,
             val scope = rememberCoroutineScope()
             MapEffect(state.clusterItems) { map ->
                 if (state.clusterItems.isNotEmpty()) {
-                    val clusterManager = setupClusterManager(context, map)
+                    val clusterManager = viewModel.setupClusterManager(context, map)
                     map.setOnCameraIdleListener(clusterManager)
                     map.setOnMarkerClickListener(clusterManager)
-                    state.clusterItems.forEach { clusterItem ->
-                        map.addPolygon(clusterItem.polygonOptions)
-                    }
                     map.setOnMapLoadedCallback {
                         if (state.clusterItems.isNotEmpty()) {
                             scope.launch {
                                 cameraPositionState.animate(
                                     update = CameraUpdateFactory.newLatLngBounds(
-                                        calculateZoneViewCenter(),
-                                        0
+                                        viewModel.calculateZoneLatLngBounds(), 0
                                     ),
                                 )
                             }

@@ -67,7 +67,6 @@ class MainActivity : ComponentActivity() {
         )
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         askPermissions()
-        homeViewModel.search(location = "Philippines")
         setContent {
             Content(navController = rememberNavController(), mapViewModel = mapViewModel, homepageViewModel = homeViewModel)
         }

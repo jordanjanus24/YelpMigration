@@ -64,11 +64,11 @@ fun BusinessItem(business: Business) {
                 business.rating?.let { Text("$it Reviews", style = MaterialTheme.typography.overline, color = Color.LightGray) }
             }
             business.categories?.let { categories ->
-                val category = categories.fold("") { acc, next -> "$acc,${next.title}" }
+                val category = categories.fold("") { acc, next -> "$acc, ${next.title}" }
                 Text(category, style = MaterialTheme.typography.caption, color = Color.Black)
             }
             business.location?.let { location ->
-                Text("${location.address1} ${location.address2} ${location.city} ${location.zipCode}", style = MaterialTheme.typography.overline, color = Color.LightGray)
+                Text(location.getDisplayAddress(), style = MaterialTheme.typography.overline, color = Color.LightGray)
             }
         }
     }

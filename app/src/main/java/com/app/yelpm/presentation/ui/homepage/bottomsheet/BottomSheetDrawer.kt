@@ -26,7 +26,7 @@ fun BottomSheetDrawer(homepageViewModel: HomepageViewModel) {
     val bottomSheetState = rememberBottomSheetState(
         initialValue = BottomSheetValue.Collapsed,
         animationSpec = tween(
-            durationMillis = 500,
+            durationMillis = 300,
             delayMillis = 0,
             easing = FastOutLinearInEasing
         )
@@ -48,7 +48,9 @@ fun BottomSheetDrawer(homepageViewModel: HomepageViewModel) {
                     Column {
                         val businesses = homepageViewModel.businesses.value
                         FilterOptions("Distance","Ratings","Reviews")
-                        BusinessList(businesses = businesses)
+                        businesses?.let { it ->
+                            BusinessList(businesses = it)
+                        }
                     }
                 }
             }
@@ -60,9 +62,7 @@ fun BottomSheetDrawer(homepageViewModel: HomepageViewModel) {
         sheetShape = RoundedCornerShape(
                 topStart = if(!bottomSheetState.isExpanded) 20.dp else 0.dp,
                 topEnd = if(!bottomSheetState.isExpanded) 20.dp else 0.dp),
-        drawerElevation = 0.dp,
-        drawerGesturesEnabled = false,
-        sheetPeekHeight = 300.dp,
+        sheetPeekHeight = 200.dp,
         floatingActionButton = {
             AnimatedVisibility(visible = !bottomSheetState.isAnimationRunning && !bottomSheetState.isExpanded) {
                 FloatingActionButton(onClick = {
@@ -71,10 +71,11 @@ fun BottomSheetDrawer(homepageViewModel: HomepageViewModel) {
                             bottomSheetScaffoldState.bottomSheetState.expand()
                         }
                     }
-                }) {
+                }, backgroundColor = Color.Red) {
                     Icon(
                         imageVector = if (!bottomSheetState.isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                        contentDescription = "Expand/Collapse"
+                        contentDescription = "Expand/Collapse",
+                        tint = Color.White
                     )
                 }
             }
