@@ -1,0 +1,92 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
+}
+
+android {
+    namespace AndroidBuild.applicationPackage
+    compileSdkVersion AndroidBuild.compileSdk
+    buildToolsVersion AndroidBuild.toolsVersion
+
+    defaultConfig {
+        applicationId AndroidBuild.applicationPackage
+        minSdkVersion AndroidBuild.minSdk
+        targetSdkVersion AndroidBuild.targetSdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner AndroidBuild.androidTestInstrumentation
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion Versions.compose_ui
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+    // AndroidX
+    implementation Deps.androidx_core
+    implementation Deps.androidx_core_ktx
+    implementation Deps.androidx_lifecycle
+    implementation Deps.androidx_fragment_ktx
+    implementation Deps.androidx_appcompat
+    // Compose
+    implementation Deps.compose_ui
+    implementation Deps.compose_ui_tooling_preview
+    implementation Deps.compose_material
+    implementation Deps.compose_activity
+    implementation Deps.compose_navigation
+    // Hilt
+    implementation Deps.hilt_android
+    kapt Deps.hilt_android_compiler
+    kapt Deps.hilt_compiler
+    // Google Maps
+    implementation Deps.play_services_maps
+    implementation Deps.play_services_location
+    implementation Deps.maps_compose
+    implementation Deps.maps_ktx
+    implementation Deps.maps_utils_ktx
+    // Glide
+    implementation Deps.glide
+    kapt Deps.glide_compiler
+    // Retrofit
+    implementation Deps.retrofit
+    implementation Deps.retrofit_converter_gson
+
+    // Test Implementations
+    testImplementation TestDeps.junit
+    androidTestImplementation TestDeps.androidx_junit
+    androidTestImplementation TestDeps.espresso_core
+    androidTestImplementation TestDeps.compose_test
+
+    // Compose UI Toolkit
+    debugImplementation DebugDeps.ui_tooling
+    debugImplementation DebugDeps.ui_test_manifest
+}
