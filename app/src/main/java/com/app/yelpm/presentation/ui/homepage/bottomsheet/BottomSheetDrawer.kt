@@ -16,13 +16,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.dp
 import com.app.yelpm.presentation.ui.homepage.HomepageViewModel
+import com.app.yelpm.presentation.ui.homepage.businesslist.BusinessList
+import com.app.yelpm.presentation.ui.homepage.businesslist.FilterOptions
+import com.app.yelpm.presentation.ui.homepage.map.MapScreen
 import com.app.yelpm.presentation.ui.homepage.map.MapViewModel
+import com.app.yelpm.presentation.ui.homepage.toolbar.CardToolbar
 import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun BottomSheetDrawer(homepageViewModel: HomepageViewModel) {
+fun BottomSheetDrawer(homepageViewModel: HomepageViewModel, mapViewModel: MapViewModel) {
     val bottomSheetState = rememberBottomSheetState(
         initialValue = BottomSheetValue.Collapsed,
         animationSpec = tween(
@@ -40,11 +44,10 @@ fun BottomSheetDrawer(homepageViewModel: HomepageViewModel) {
         sheetGesturesEnabled = true,
         sheetContent = {
             Card(
+                modifier = Modifier.fillMaxHeight(0.85f),
                 elevation = 8.dp,
                 backgroundColor = Color.White.compositeOver(Color.White)) {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                ) {
+                Box(modifier = Modifier.fillMaxSize()) {
                     Column {
                         val businesses = homepageViewModel.businesses.value
                         FilterOptions("Distance","Ratings","Reviews")
@@ -60,8 +63,8 @@ fun BottomSheetDrawer(homepageViewModel: HomepageViewModel) {
         backgroundColor = Color.Transparent,
         contentColor = Color.Transparent,
         sheetShape = RoundedCornerShape(
-                topStart = if(!bottomSheetState.isExpanded) 20.dp else 0.dp,
-                topEnd = if(!bottomSheetState.isExpanded) 20.dp else 0.dp),
+            topStart = if(!bottomSheetState.isExpanded) 20.dp else 0.dp,
+            topEnd = if(!bottomSheetState.isExpanded) 20.dp else 0.dp),
         sheetPeekHeight = 200.dp,
         floatingActionButton = {
             AnimatedVisibility(visible = !bottomSheetState.isAnimationRunning && !bottomSheetState.isExpanded) {
@@ -81,6 +84,10 @@ fun BottomSheetDrawer(homepageViewModel: HomepageViewModel) {
             }
         }
     ) {
-
+        Box(modifier = Modifier.fillMaxSize()) {
+            MapScreen(viewModel = mapViewModel)
+            CardToolbar(bottomSheetScaffoldState.bottomSheetState)
+        }
     }
+
 }

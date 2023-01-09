@@ -19,7 +19,6 @@ import com.google.android.gms.maps.model.LatLng
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Content(navController: NavHostController, mapViewModel: MapViewModel, homepageViewModel: HomepageViewModel) {
-    val route by remember { mutableStateOf("") }
     AppTheme {
         NavHost(
             modifier = Modifier.fillMaxSize(),
@@ -27,14 +26,8 @@ fun Content(navController: NavHostController, mapViewModel: MapViewModel, homepa
             startDestination = "homepage"
         ) {
             composable(route = "homepage") {
-                Box(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    MapScreen(viewModel = mapViewModel)
-                    Column {
-                        CardToolbar(navController = navController, route = route)
-                        BottomSheetDrawer(homepageViewModel = homepageViewModel)
-                    }
+                Box(modifier = Modifier.fillMaxSize()) {
+                    BottomSheetDrawer(homepageViewModel = homepageViewModel, mapViewModel = mapViewModel)
                 }
             }
         }

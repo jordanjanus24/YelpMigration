@@ -38,4 +38,11 @@ data class Business(
     val phone: String? = null,
     val displayPhone: String? = null,
     val distance: Double? = null
-)
+) {
+    fun getCategories(): String {
+        categories?.let {
+            return categories.joinToString(separator = ", ") { "${it.title}" }
+        }
+        return ""
+    }
+}

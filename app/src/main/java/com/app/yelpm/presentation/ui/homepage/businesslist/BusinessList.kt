@@ -1,4 +1,4 @@
-package com.app.yelpm.presentation.ui.homepage.bottomsheet
+package com.app.yelpm.presentation.ui.homepage.businesslist
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn

@@ -1,4 +1,4 @@
-package com.app.yelpm.presentation.ui.homepage.bottomsheet
+package com.app.yelpm.presentation.ui.homepage.businesslist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -63,10 +63,7 @@ fun BusinessItem(business: Business) {
                 Spacer(Modifier.requiredWidth(10.dp))
                 business.rating?.let { Text("$it Reviews", style = MaterialTheme.typography.overline, color = Color.LightGray) }
             }
-            business.categories?.let { categories ->
-                val category = categories.fold("") { acc, next -> "$acc, ${next.title}" }
-                Text(category, style = MaterialTheme.typography.caption, color = Color.Black)
-            }
+            Text(business.getCategories(), style = MaterialTheme.typography.caption, color = Color.Black)
             business.location?.let { location ->
                 Text(location.getDisplayAddress(), style = MaterialTheme.typography.overline, color = Color.LightGray)
             }
