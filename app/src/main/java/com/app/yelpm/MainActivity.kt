@@ -3,6 +3,7 @@ package com.app.yelpm
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,6 +13,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.*
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.rememberNavController
+import com.app.yelpm.constants.Countries
 import com.app.yelpm.presentation.ui.NavigationHost
 import com.app.yelpm.presentation.ui.homepage.HomePageViewModel
 import com.app.yelpm.presentation.ui.homepage.map.MapViewModel
@@ -19,6 +21,7 @@ import com.app.yelpm.theme.AppTheme
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

@@ -31,7 +31,7 @@ fun NavigationHost(navController: NavHostController,
         }
     }
     LaunchedEffect(key1 = Unit) {
-        homepageViewModel.search("Philippines")
+        homepageViewModel.requestInitialData()
         homepageViewModel.currentBusiness.observeForever { businesses ->
             businesses?.let {
                 mapViewModel.setClusterItems(it)

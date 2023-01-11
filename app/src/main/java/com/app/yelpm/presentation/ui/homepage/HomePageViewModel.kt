@@ -1,15 +1,26 @@
 package com.app.yelpm.presentation.ui.homepage
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.yelpm.constants.Countries
+import com.app.yelpm.constants.Country
 import com.app.yelpm.domain.model.Business
 import com.app.yelpm.repository.BusinessesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
+
+
+enum class HomePageViewType {
+     HOMEPAGE, COUNTRIES_SELECTOR
+}
+
+const val defaultCountry = "Philippines"
 
 @HiltViewModel
 class HomePageViewModel
@@ -23,11 +34,33 @@ class HomePageViewModel
     val currentBusiness: LiveData<List<Business>?> = _currentBusinesses
     private val _pinnedBusiness: MutableLiveData<Business?> = MutableLiveData(null)
     val pinnedBusiness: LiveData<Business?> = _pinnedBusiness
-    fun search(location: String) {
+    val currentView = mutableStateOf(HomePageViewType.HOMEPAGE)
+    val currentCountry = mutableStateOf(defaultCountry)
+    val countries = mutableStateOf<List<Country>>(listOf())
+    fun changeView(viewType: HomePageViewType) {
         viewModelScope.launch {
-            val response = repository.search(location)
+            currentView.value = viewType
+        }
+    }
+    fun requestInitialData() {
+        viewModelScope.launch {
+            countries.value = Countries.getAll()
+            val response = repository.search(currentCountry.value)
             businesses.value = response
             _currentBusinesses.value = response
+        }
+    }
+    fun search(location: String) {
+        viewModelScope.launch {
+            currentCountry.value = location
+            try {
+                val response = repository.search(location)
+                businesses.value = response
+                _currentBusinesses.value = response
+            } catch(ex: HttpException) {
+                Log.d("EXCEPTION", ex.response().toString())
+            }
+
         }
     }
     fun sort(filter: String) {

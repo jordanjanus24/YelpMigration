@@ -18,11 +18,13 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.app.yelpm.R
+import com.app.yelpm.presentation.ui.homepage.HomePageViewModel
+import com.app.yelpm.presentation.ui.homepage.HomePageViewType
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun CardToolbar(bottomSheetState: BottomSheetState) {
+fun CardToolbar(bottomSheetState: BottomSheetState, homePageViewModel: HomePageViewModel) {
     var showMenu by remember { mutableStateOf(false) }
     val animatedColor = animateColorAsState(
         if(bottomSheetState.isCollapsed && !bottomSheetState.isAnimationRunning) Color.Transparent else MaterialTheme.colors.primary,
@@ -47,17 +49,28 @@ fun CardToolbar(bottomSheetState: BottomSheetState) {
             ) {
                 TopAppBar(
                     title = {
-                        Text(text = "Select Country",
+                        Text(text =
+                            if(homePageViewModel.currentView.value == HomePageViewType.COUNTRIES_SELECTOR)
+                                "Select Country"
+                            else homePageViewModel.currentCountry.value,
                             style = MaterialTheme.typography.subtitle2,
                             color = MaterialTheme.colors.onSurface)
                     },
                     navigationIcon = {
                         IconButton(onClick = {
-                            if(bottomSheetState.isExpanded) {
+                            if(homePageViewModel.currentView.value === HomePageViewType.COUNTRIES_SELECTOR) {
                                 coroutineScope.launch {
                                     bottomSheetState.collapse()
+                                    homePageViewModel.changeView(HomePageViewType.HOMEPAGE)
+                                }
+                            } else {
+                                if(bottomSheetState.isExpanded) {
+                                    coroutineScope.launch {
+                                        bottomSheetState.collapse()
+                                    }
                                 }
                             }
+
                         }, enabled = bottomSheetState.isExpanded) {
                             if(bottomSheetState.isExpanded) {
                                 Icon(
@@ -75,12 +88,19 @@ fun CardToolbar(bottomSheetState: BottomSheetState) {
                         }
                     },
                     actions = {
-                        IconButton(onClick = {}) {
-                            Icon(
-                                imageVector = Icons.Default.Place,
-                                contentDescription = "Select Country",
-                                tint = MaterialTheme.colors.onSurface
-                            )
+                        if (homePageViewModel.currentView.value !== HomePageViewType.COUNTRIES_SELECTOR) {
+                            IconButton(onClick = {
+                                coroutineScope.launch {
+                                    homePageViewModel.changeView(HomePageViewType.COUNTRIES_SELECTOR)
+                                    bottomSheetState.expand()
+                                }
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.Place,
+                                    contentDescription = "Select Country",
+                                    tint = MaterialTheme.colors.onSurface
+                                )
+                            }
                         }
                         IconButton(onClick = { showMenu = !showMenu }) {
                             Icon(imageVector = Icons.Default.MoreVert,
