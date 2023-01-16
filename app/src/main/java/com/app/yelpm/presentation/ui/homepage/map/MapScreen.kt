@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -52,11 +53,21 @@ fun MapScreen(
                     map.setOnMapLoadedCallback {
                         if (state.clusterItems.isNotEmpty()) {
                             scope.launch {
-                                cameraPositionState.animate(
-                                    update = CameraUpdateFactory.newLatLngBounds(
-                                        viewModel.calculateZoneLatLngBounds(), 0
-                                    ),
-                                )
+                                if(state.clusterItems.size == 1) {
+                                    val coordinates = state.clusterItems[0].coordinates
+                                    val latLng = LatLng(coordinates.latitude!!, coordinates.longitude!!)
+                                    cameraPositionState.animate(
+                                        update = CameraUpdateFactory.newLatLngBounds(
+                                            latLng.getBounds(), 0
+                                        ),
+                                    )
+                                } else {
+                                    cameraPositionState.animate(
+                                        update = CameraUpdateFactory.newLatLngBounds(
+                                            viewModel.calculateZoneLatLngBounds(), 0
+                                        ),
+                                    )
+                                }
                             }
                         }
                     }

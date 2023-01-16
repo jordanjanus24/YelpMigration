@@ -7,15 +7,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.app.yelpm.presentation.components.CountriesList
 import com.app.yelpm.presentation.ui.homepage.HomePageViewModel
 import com.app.yelpm.presentation.ui.homepage.HomePageViewType
-import com.app.yelpm.presentation.ui.homepage.businesslist.BusinessList
-import com.app.yelpm.presentation.ui.homepage.businesslist.FilterOptions
 import com.app.yelpm.presentation.ui.homepage.map.MapScreen
 import com.app.yelpm.presentation.ui.homepage.map.MapViewModel
 import com.app.yelpm.presentation.ui.homepage.toolbar.CardToolbar
@@ -30,7 +27,18 @@ fun BottomSheetDrawer(homepageViewModel: HomePageViewModel, mapViewModel: MapVie
             durationMillis = 300,
             delayMillis = 0,
             easing = FastOutLinearInEasing
-        )
+        ),
+        confirmStateChange = { _ ->
+            if(homepageViewModel.currentView.value != HomePageViewType.COUNTRIES_SELECTOR) {
+                true
+            } else if(homepageViewModel.currentView.value == HomePageViewType.SEARCH) {
+                homepageViewModel.changeView(HomePageViewType.HOMEPAGE)
+                true
+            }else {
+                homepageViewModel.changeView(HomePageViewType.HOMEPAGE)
+                true
+            }
+        }
     )
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = bottomSheetState
@@ -40,8 +48,11 @@ fun BottomSheetDrawer(homepageViewModel: HomePageViewModel, mapViewModel: MapVie
         sheetGesturesEnabled = homepageViewModel.currentView.value != HomePageViewType.COUNTRIES_SELECTOR,
         drawerGesturesEnabled = homepageViewModel.currentView.value != HomePageViewType.COUNTRIES_SELECTOR,
         sheetContent = {
-            if(homepageViewModel.currentView.value == HomePageViewType.HOMEPAGE) {
-                AnimatedVisibility(visible = homepageViewModel.currentView.value == HomePageViewType.HOMEPAGE) {
+            if(homepageViewModel.currentView.value == HomePageViewType.HOMEPAGE ||
+                homepageViewModel.currentView.value == HomePageViewType.SEARCH) {
+                AnimatedVisibility(visible =
+                    homepageViewModel.currentView.value == HomePageViewType.HOMEPAGE ||
+                    homepageViewModel.currentView.value == HomePageViewType.SEARCH) {
                     BottomSheet(homepageViewModel = homepageViewModel)
                 }
             } else if(homepageViewModel.currentView.value == HomePageViewType.COUNTRIES_SELECTOR) {

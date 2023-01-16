@@ -16,6 +16,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -49,7 +50,9 @@ class MapViewModel @Inject constructor(): ViewModel() {
         map: GoogleMap,
     ): ZoneClusterManager {
         val clusterManager = ZoneClusterManager(context, map)
+        clusterManager.clearItems()
         clusterManager.addItems(state.value.clusterItems)
+        Log.d("STATE", state.value.clusterItems.toString())
         return clusterManager
     }
 

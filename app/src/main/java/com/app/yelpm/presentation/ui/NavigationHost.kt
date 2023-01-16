@@ -33,8 +33,8 @@ fun NavigationHost(navController: NavHostController,
     LaunchedEffect(key1 = Unit) {
         homepageViewModel.requestInitialData()
         homepageViewModel.currentBusiness.observeForever { businesses ->
-            businesses?.let {
-                mapViewModel.setClusterItems(it)
+             businesses?.let {
+                 mapViewModel.setClusterItems(it)
             }
         }
     }

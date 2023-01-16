@@ -23,6 +23,7 @@ fun BottomSheet(homepageViewModel: HomePageViewModel) {
             Column {
                 val businesses = homepageViewModel.businesses.value
                 val sortedBusiness = homepageViewModel.sortedBusiness.value
+                val filteredBusiness = homepageViewModel.filteredBusiness.value
                 FilterOptions(
                     sortOptions = listOf("Distance","Ratings","Reviews"),
                     currentFilter = homepageViewModel.currentFilter
@@ -33,14 +34,21 @@ fun BottomSheet(homepageViewModel: HomePageViewModel) {
                         homepageViewModel.sort(it)
                     }
                 }
-                if(homepageViewModel.currentFilter.value == "") {
+                if(homepageViewModel.currentFilter.value == "" && homepageViewModel.currentQuery.value == "") {
                     businesses?.let { it ->
                         BusinessList(businesses = it)
                     }
                 } else {
-                    sortedBusiness?.let { it ->
-                        BusinessList(businesses = it)
+                    if(homepageViewModel.currentQuery.value != "") {
+                        filteredBusiness?.let { it ->
+                            BusinessList(businesses = it)
+                        }
+                    } else {
+                        sortedBusiness?.let { it ->
+                            BusinessList(businesses = it)
+                        }
                     }
+
                 }
 
             }
